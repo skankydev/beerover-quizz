@@ -9,3 +9,4 @@ l application pour qui va avec le buzzer.
 ## Pour commencer
 
 de la patience
+DevTools shortcut "Ctrl+Shift+I" 

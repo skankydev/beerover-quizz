@@ -2,20 +2,25 @@
 	"name": "beerover-quizz",
 	"version": "0.0.1",
 	"description": "BeerOver Quizz",
-	"main": "index.js",
+	"main": "./main.js",
 	"scripts": {
 		"dev": "npm run development",
 		"development": "webpack --mode=development --config=webpack.config.js",
 		"watch": "npm run development -- --watch --progress",
 		"prod": "npm run production",
-		"production": "webpack --mode=production --config=webpack.config.js"
+		"production": "webpack --mode=production --config=webpack.config.js",
+		"start": "electron-forge start",
+		"package": "electron-forge package",
+		"make": "electron-forge make"
 	},
-	"keywords": [
-		"audio"
-	],
 	"author": "skankydev",
 	"license": "MIT",
 	"devDependencies": {
+		"@electron-forge/cli": "^6.0.0-beta.61",
+		"@electron-forge/maker-deb": "^6.0.0-beta.61",
+		"@electron-forge/maker-rpm": "^6.0.0-beta.61",
+		"@electron-forge/maker-squirrel": "^6.0.0-beta.61",
+		"@electron-forge/maker-zip": "^6.0.0-beta.61",
 		"cross-env": "^7.0.0",
 		"css-loader": "^3.4.2",
 		"electron": "^15.1.0",
@@ -30,7 +35,35 @@
 		"webpack-cli": "^3.3.10"
 	},
 	"dependencies": {
+		"electron-squirrel-startup": "^1.0.0",
 		"jquery": "^3.6.0",
 		"vue": "^2.6.14"
+	},
+	"config": {
+		"forge": {
+			"packagerConfig": {},
+			"makers": [
+				{
+					"name": "@electron-forge/maker-squirrel",
+					"config": {
+						"name": "beerover_quizz"
+					}
+				},
+				{
+					"name": "@electron-forge/maker-zip",
+					"platforms": [
+						"darwin"
+					]
+				},
+				{
+					"name": "@electron-forge/maker-deb",
+					"config": {}
+				},
+				{
+					"name": "@electron-forge/maker-rpm",
+					"config": {}
+				}
+			]
+		}
 	}
 }
