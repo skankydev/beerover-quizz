@@ -41,7 +41,12 @@
 	},
 	"config": {
 		"forge": {
-			"packagerConfig": {},
+			"packagerConfig": {
+				"dir":"./public"
+			},
+			"electronPackagerConfig": {
+				"dir":"./public"
+			},
 			"makers": [
 				{
 					"name": "@electron-forge/maker-squirrel",
