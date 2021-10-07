@@ -5,23 +5,24 @@ window.Vue = Vue;
 
 Vue.component('beerover-app', BeerOverApp);
 
-console.log('Coucou');
+console.log('Youpi');
 
-var deviceName = 'beerover'
-var bleService = 'environmental_sensing'
-var bleCharacteristic = 'uv_index'
+var deviceName = 'Beerover'
+var bleService = '110a4526-2552-11ec-9621-0242ac130002'
+var bleCharacteristic = '243b1e7c-2552-11ec-9621-0242ac130002'
 var bluetoothDeviceDetected
 var gattCharacteristic
+var myCharacteristic
 
-document.querySelector('#read').addEventListener('click', function() {
-	if (isWebBluetoothEnabled()) { read() }
+document.querySelector('#Connect').addEventListener('click', function() {
+	if (isWebBluetoothEnabled()) { getDevice() }
 })
 
-document.querySelector('#start').addEventListener('click', function(event) {
+document.querySelector('#Start').addEventListener('click', function(event) {
 	if (isWebBluetoothEnabled()) { start() }
 })
 
-document.querySelector('#stop').addEventListener('click', function(event) {
+document.querySelector('#Stop').addEventListener('click', function(event) {
 	if (isWebBluetoothEnabled()) { stop() }
 })
 
@@ -33,77 +34,51 @@ function isWebBluetoothEnabled() {
 	return true
 }
 
-function getDeviceInfo() {
+function getDevice() {
 	let options = {
 		optionalServices: [bleService],
-		filters: [
+		acceptAllDevices: true
+		/*filters: [
 			{ "name": deviceName }
-		]
+		]*/
 	}
 
-	console.log('Requesting any Bluetooth Device...')
-	return navigator.bluetooth.requestDevice(options).then(device => {
-		bluetoothDeviceDetected = device
+	console.log('Cherche le buzzer')
+	navigator.bluetooth.requestDevice(options).then((device) => {
+		console.log('buzzer trouver',device);
+		return device.gatt.connect();
+
+	}).then((server) => {
+		console.log('server',server);
+		return server.getPrimaryService(bleService);
+
+	}).then((service) => {
+		console.log('service',service);
+
+		return service.getCharacteristic(bleCharacteristic);
+
+	}).then((characteristic) => {
+		myCharacteristic = characteristic;
+		return myCharacteristic.startNotifications().then( () => {
+			console.log('> Notifications started');
+			myCharacteristic.addEventListener('characteristicvaluechanged',handleNotifications);
+		});
 	}).catch(error => {
-		console.log('Argh! ' + error)
-	})
+		console.log('Argh! ' + error);
+	});
 }
 
-function read() {
-	return (bluetoothDeviceDetected ? Promise.resolve() : getDeviceInfo())
-	.then(connectGATT)
-	.then(_ => {
-		console.log('Reading UV Index...')
-		return gattCharacteristic.readValue()
-	}).catch(error => {
-		console.log('Waiting to start reading: ' + error)
-	})
-}
-
-function connectGATT() {
-	if (bluetoothDeviceDetected.gatt.connected && gattCharacteristic) {
-		return Promise.resolve()
+function handleNotifications(event) {
+	let value = event.target.value;
+	console.log('event',event)
+	console.log('value',String.fromCharCode.apply(null, value))
+	let a = [];
+	// Convert raw data bytes to hex values just for the sake of showing something.
+	// In the "real" world, you'd use data.getUint8, data.getUint16 or even
+	// TextDecoder to process raw data bytes.
+	for (let i = 0; i < value.byteLength; i++) {
+		a.push('0x' + ('00' + value.getUint8(i).toString(16)).slice(-2));
 	}
-
-	return bluetoothDeviceDetected.gatt.connect().then(server => {
-		console.log('Getting GATT Service...')
-		return server.getPrimaryService(bleService)
-	}).then(service => {
-		console.log('Getting GATT Characteristic...')
-		return service.getCharacteristic(bleCharacteristic)
-	}).then(characteristic => {
-		gattCharacteristic = characteristic
-		gattCharacteristic.addEventListener('characteristicvaluechanged',
-		handleChangedValue)
-		document.querySelector('#start').disabled = false
-		document.querySelector('#stop').disabled = true
-	})
-}
-
-function handleChangedValue(event) {
-	let value = event.target.value.getUint8(0)
-	var now = new Date()
-	console.log('> ' + now.getHours() + ':' + now.getMinutes() + ':' + now.getSeconds() + ' UV Index is ' + value)
-}
-
-function start() {
-	gattCharacteristic.startNotifications()
-	.then(_ => {
-		console.log('Start reading...')
-		document.querySelector('#start').disabled = true
-		document.querySelector('#stop').disabled = false
-	}).catch(error => {
-		console.log('[ERROR] Start: ' + error)
-	})
-}
-
-function stop() {
-	gattCharacteristic.stopNotifications()
-	.then(_ => {
-		console.log('Stop reading...')
-		document.querySelector('#start').disabled = false
-		document.querySelector('#stop').disabled = true
-	}).catch(error => {
-		console.log('[ERROR] Stop: ' + error)
-	})
+	let text = String.fromCharCode.apply(null, new Uint16Array(a));
+	console.log(text);
 }
