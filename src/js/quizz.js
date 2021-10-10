@@ -1,18 +1,20 @@
 import Vue from 'vue';
 import BeerOverApp from './Element/BeerOverApp.vue';
+import BuzzerList from './Class/BuzzerList.js';
 
 window.Vue = Vue;
-
+window.BuzzerList = BuzzerList;
 Vue.component('beerover-app', BeerOverApp);
 
-console.log('Youpi');
 
+
+/*
 var deviceName = 'Beerover'
 var bleService = '110a4526-2552-11ec-9621-0242ac130002'
 var bleCharacteristic = '243b1e7c-2552-11ec-9621-0242ac130002'
-var bluetoothDeviceDetected
+var bluetoothDeviceDetected 
 var gattCharacteristic
-var myCharacteristic
+var myCharacteristic = [];
 
 document.querySelector('#Connect').addEventListener('click', function() {
 	if (isWebBluetoothEnabled()) { getDevice() }
@@ -38,9 +40,9 @@ function getDevice() {
 	let options = {
 		optionalServices: [bleService],
 		acceptAllDevices: true
-		/*filters: [
+		filters: [
 			{ "name": deviceName }
-		]*/
+		]
 	}
 
 	console.log('Cherche le buzzer')
@@ -58,10 +60,13 @@ function getDevice() {
 		return service.getCharacteristic(bleCharacteristic);
 
 	}).then((characteristic) => {
-		myCharacteristic = characteristic;
-		return myCharacteristic.startNotifications().then( () => {
+		let key = myCharacteristic.push(characteristic) - 1;
+		console.log('characteristic',characteristic);
+		console.log('myCharacteristic',myCharacteristic);
+		console.log('key',key);
+		return myCharacteristic[key].startNotifications().then( () => {
 			console.log('> Notifications started');
-			myCharacteristic.addEventListener('characteristicvaluechanged',handleNotifications);
+			myCharacteristic[key].addEventListener('characteristicvaluechanged',handleNotifications);
 		});
 	}).catch(error => {
 		console.log('Argh! ' + error);
@@ -71,14 +76,14 @@ function getDevice() {
 function handleNotifications(event) {
 	let value = event.target.value;
 	console.log('event',event)
-	console.log('value',String.fromCharCode.apply(null, value))
+	console.log('myCharacteristic',myCharacteristic);
+	
+	
 	let a = [];
-	// Convert raw data bytes to hex values just for the sake of showing something.
-	// In the "real" world, you'd use data.getUint8, data.getUint16 or even
-	// TextDecoder to process raw data bytes.
 	for (let i = 0; i < value.byteLength; i++) {
 		a.push('0x' + ('00' + value.getUint8(i).toString(16)).slice(-2));
 	}
 	let text = String.fromCharCode.apply(null, new Uint16Array(a));
 	console.log(text);
 }
+*/

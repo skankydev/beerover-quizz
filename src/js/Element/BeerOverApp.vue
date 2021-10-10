@@ -1,20 +1,47 @@
 <template>
-	<div class="example">
-		{{ msg }}
-		<span class="count" @click="addOne">{{count}}</span></div>
+	<div class="Main">
+		<header>
+			{{ msg }}
+			<button class="count" @click="addBuzzer">Find Buzzer</button>
+		</header>
+		<section class="buzzer-message">
+			<template v-for="(text,key) in log">
+				<div>
+					{{key}} - {{text}}
+				</div>
+			</template>
+		</section>
+	</div>
 </template>
 
 <script>
+
+
+
 export default {
+	monted(){
+		//this.buzzerList.setDisplay(this);
+	},
 	data () {
 		return {
-			msg: 'Hello world!',
+			msg: 'Hello Beerover !',
 			count:0,
+			log:[],
+			buzzerList:{},
 		}
 	},
 	methods:{
-		addOne:function(){
-			this.count+=1
+		setBuzzerList(buzzerList){
+			this.buzzerList = buzzerList;
+		},
+		addBuzzer:function(){
+			this.buzzerList.findNewBuzzer()
+		},
+		setText:function(text){
+			this.log.push(text);
+			if(this.log.length > 50){
+				this.log.shift();
+			}
 		}
 	}
 }

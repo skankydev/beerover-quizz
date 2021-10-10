@@ -1,31 +1,25 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="fr">
 <head>
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<title>BeerOver Quizz</title>
 	<link href="./assets/quizz.css" rel="stylesheet" type="text/css">
+	<link rel="icon" href="./img/favicon.png">
 </head>
 <body>
-	<section>
-		<h1>Youpi j ai afficher des truc</h1>
-	</section>
-	<section id=BeerOver>
-		<beerover-app></beerover-app>
-	</section>
-	<div>
-		<button id="Connect">Connect</button>
-		<button id="Start" disabled>Start</button>
-		<button id="Stop" disabled>Stop</button>
-	</div>
-	<div id="Content">
-		0
-	</div>
+<section id=BeerOver>
+	<beerover-app
+		ref="display"
+	></beerover-app>
+</section>
 <script type="text/javascript" src="./assets/quizz.js"></script>
 <script type="text/javascript">
-var app = new Vue({
-	el: '#BeerOver',
-});
+
+var app = new Vue({ el: '#BeerOver' });
+app.$refs.display.setBuzzerList(BuzzerList);
+BuzzerList.setDisplay(app.$refs.display);
+
 </script>
 </body>
 </html>

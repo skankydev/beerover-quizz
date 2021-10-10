@@ -1,3 +1,10 @@
+/* $color-purple:#3e166b ; //rgb(62, 22, 107)
+$color-pink:#d16bb5; //rgb(209, 107, 181)
+$color-blue:#449bda; //rgb(68, 155, 218)
+$color-purple-light:#6956bc; //rgb(105, 86, 188)
+$color-red:#932265; //rgb(147, 34, 101)
+
+ */
 * {
   padding: 0;
   margin: 0;
@@ -7,8 +14,8 @@ body {
   padding: 8px 5vw;
   height: 100vh;
   width: 100vw;
-  color: #FFF;
-  background-color: #000; }
+  color: #35C0EE;
+  background-color: #471068; }
 
 #Content {
   font-size: 32px; }
