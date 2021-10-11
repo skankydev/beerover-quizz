@@ -7,7 +7,7 @@ class BuzzerList{
 			this.list = [];
 			this.bleService = '110a4526-2552-11ec-9621-0242ac130002'
 			this.bleCharacteristic = '243b1e7c-2552-11ec-9621-0242ac130002'
-			document.addEventListener('BuzzerSay',this.buzzerListener.bind(this))
+			//document.addEventListener('BuzzerSay',this.buzzerListener.bind(this))
 			BuzzerList.instance = this;
 		}
 		return BuzzerList.instance;
@@ -65,10 +65,8 @@ class BuzzerList{
 		}
 		let text = String.fromCharCode.apply(null, new Uint16Array(a));
 		console.log(text);
-		let message = new Event('BuzzerSay');
-		message.value = text;
-		document.dispatchEvent(message);
-		
+		this.display.setText(text);
+
 	}
 
 }
