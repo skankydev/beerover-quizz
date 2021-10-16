@@ -1,6 +1,15 @@
 <template>
 	<div class="buzzer-element">
-		<div class="buzzer-name">{{buzzer.key}} - {{name}}</div>
+
+		<div class="buzzer-name">
+			{{buzzer.key}} - {{name}}
+		</div>
+		<div class="buzzer-action">
+			<span class="btn-mini" @click="setStatus('wait')">wait</span>
+			<span class="btn-mini" @click="setStatus('win')">win</span>
+			<span class="btn-mini" @click="setStatus('lost')">lost</span>
+
+		</div>
 	</div>
 </template>
 
@@ -17,7 +26,9 @@ export default {
 		}
 	},
 	methods:{
-
+		setStatus:function(status){
+			this.buzzer.setStatus(status);
+		}
 	}
 }
 </script>

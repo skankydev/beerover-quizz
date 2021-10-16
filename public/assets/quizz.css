@@ -76,12 +76,33 @@ button {
     background-color: #6B236F;
     border: 2px solid #08F7FE; }
 
+.btn-mini {
+  font-size: 12px;
+  display: inline-block;
+  text-decoration: none;
+  color: #f5da81;
+  padding: 4px 8px;
+  background-color: #471068;
+  border: 2px solid #A2D9F8;
+  transition: all 0.2s;
+  cursor: pointer;
+  border-radius: 4px; }
+  .btn-mini:hover {
+    background-color: #6B236F;
+    border: 2px solid #08F7FE; }
+
 .buzzer-list-header {
   margin-bottom: 16px; }
 
 .buzzer-list {
   display: flex;
   flex-direction: column; }
+
+.buzzer-action {
+  display: flex;
+  flex-direction: row; }
+  .buzzer-action .btn-mini {
+    margin-right: 16px; }
 
 /*! normalize.css v8.0.1 | MIT License | github.com/necolas/normalize.css */
 /* Document

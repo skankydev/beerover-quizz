@@ -24,6 +24,7 @@ export default class Buzzer {
 		});
 		this.initNotifieur();
 		this.initBattery();
+		this.initStatus();
 	}
 
 	initNotifieur(){
@@ -39,25 +40,43 @@ export default class Buzzer {
 
 	initBattery(){
 		this.service.getCharacteristic(BATTERY_UUID).then(battery => {
+			this.bettery = battery;
 			return battery.readValue();
 		}).then((value)=>{
-			console.log(value)
 			//Bon j ai un truc mais pas sur du truc 
-			this.battery = value.getFloat32();
-			console.log(this.battery);
 
+			this.batteryValue = asString(value);
 		}).catch(error => {
 			console.log('Battery marche pas !' + error);
 		});
 	}
 
+	initStatus(){
+		this.service.getCharacteristic(STATUS_UUID).then(status => {
+			this.statusBle = status;
+			return this.statusBle;
+		}).catch(error => {
+			console.log('Battery marche pas !' + error);
+		});
+	}
+
+	setStatus(status){
+		this.status = status;
+		var enc = new TextEncoder(); 
+		this.statusBle.writeValueWithoutResponse(enc.encode(status));
+	}
+
+	getBattery(){
+		battery.readValue().then((value)=>{
+			this.batteryValue = asString(value);
+		});
+		return this.batteryValue 
+	}
+
+
 	newNotif(event) {
 		let value = event.target.value;
-		let a = [];
-		for (let i = 0; i < value.byteLength; i++) {
-			a.push('0x' + ('00' + value.getUint8(i).toString(16)).slice(-2));
-		}
-		let text = String.fromCharCode.apply(null, new Uint16Array(a));
+		let text = asString(value);
 		let emit = new CustomEvent('BuzzerPush',{ detail: {
 			message:text,
 			id:this.id

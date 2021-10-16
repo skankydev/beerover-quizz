@@ -10,4 +10,13 @@
 	flex-direction: column;
 }
 .buzzer-element{
+
+}
+
+.buzzer-action{
+	display: flex;
+	flex-direction: row;
+	.btn-mini{
+		margin-right: $m
+	}
 }

@@ -13,7 +13,16 @@ window.makeId = function(){
 		.substring(1);
 }
 
+window.asString = function(value){
+	let a = [];
+	for (let i = 0; i < value.byteLength; i++) {
+		a.push('0x' + ('00' + value.getUint8(i).toString(16)).slice(-2));
+	}
+	let text = String.fromCharCode.apply(null, new Uint16Array(a));
+	return text;
+}
+
 window.Vue = Vue;
-//window.BuzzerList = BuzzerList;
+
 Vue.component('beerover-app', BeerOverApp);
 

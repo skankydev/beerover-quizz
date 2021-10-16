@@ -68,3 +68,23 @@ button {
 		border:2px solid $color-blue-light;
 	}
 }
+
+.btn-mini{
+	font-size: 12px;
+	display: inline-block;
+	text-decoration: none;
+
+	color:$color-yellow;
+	padding: $xs $s;
+	background-color:$color-purple;
+
+	border:2px solid $color-blue-uranian;
+	transition:all 0.2s;
+	cursor: pointer;
+	border-radius: $xs;
+
+	&:hover{
+		background-color:$midnight;
+		border:2px solid $color-blue-light;
+	}
+}
