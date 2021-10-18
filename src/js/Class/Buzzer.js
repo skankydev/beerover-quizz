@@ -3,20 +3,25 @@
 export default class Buzzer {
 	
 	constructor(device,key){
-		this.id = makeId();
+		this.uid = makeId();
 		this.key = key;
 		this.device = device;
-		this.battery = 0;
 		this.service = {};
-		this.name = 'Team';
-		console.log('device',this.device);
+		this.server = {};
 
+		this.notifieur = {};
+		this.battery = {};
+		this.statusBle = {};
+		
+		this.batteryValue = 0;
+		this.name = 'Team';
 	}
 
 	async init(){
 
 		this.service = await this.device.gatt.connect().then((server) => {
-			return server.getPrimaryService(SERVICE_UUID);
+			this.server = server
+			return this.server.getPrimaryService(SERVICE_UUID);
 		}).then((service) => {
 			return service
 		}).catch(error => {
@@ -40,8 +45,8 @@ export default class Buzzer {
 
 	initBattery(){
 		this.service.getCharacteristic(BATTERY_UUID).then(battery => {
-			this.bettery = battery;
-			return battery.readValue();
+			this.battery = battery;
+			return this.battery.readValue();
 		}).then((value)=>{
 			//Bon j ai un truc mais pas sur du truc 
 
@@ -67,7 +72,7 @@ export default class Buzzer {
 	}
 
 	getBattery(){
-		battery.readValue().then((value)=>{
+		this.battery.readValue().then((value)=>{
 			this.batteryValue = asString(value);
 		});
 		return this.batteryValue 
@@ -79,7 +84,7 @@ export default class Buzzer {
 		let text = asString(value);
 		let emit = new CustomEvent('BuzzerPush',{ detail: {
 			message:text,
-			id:this.id
+			uid:this.uid
 		} })
 		console.log('befor dispatch',emit);
 		document.dispatchEvent(emit);

@@ -27,6 +27,29 @@ class BuzzerList{
 		});
 	}
 
+	resetAll(){
+		for(let k in this.list){
+			this.list[k].setStatus('wait');
+		}
+	}
+
+	setStatusById(id,status){
+		let k = this.findById(id)
+		console.log('setStatusById',k)
+		if(k>-1){
+			this.list[k].setStatus(status);
+		}
+	}
+
+	findById(id){
+		for(let i in this.list){
+			if(this.list[i].uid == id){
+				return i;
+			}
+		}
+		console.log('not Find',id);
+		return -1;
+	}
 	
 
 }
