@@ -9,6 +9,7 @@
 	display: flex;
 	flex-direction: column;
 }
+
 .buzzer-element{
 
 }
@@ -18,5 +19,87 @@
 	flex-direction: row;
 	.btn-mini{
 		margin-right: $m
+	}
+}
+
+.buzzer-name-wrapper{
+	padding: $m;
+	.buzzer-name-btn-wrapper{
+		display: none;
+	}
+	&:hover{
+		.buzzer-name-btn-wrapper{
+			display: inline-block;
+		}
+	}
+}
+
+.buzzer-name{
+	position: relative;
+	padding: $s;
+	margin-bottom: $s;
+	width: 100%;
+	border-bottom: 1px solid $color-purple-dark;
+}
+.buzzer-name-text{
+
+}
+
+.text-error{
+	color:$sky-magenta;
+	border: 1px solid $sky-magenta;	
+	animation-name: needReconnect;
+  	animation-duration: 3s;
+  	animation-iteration-count: infinite;
+
+}
+
+@keyframes needReconnect {
+	0%   {transform:translateX(0px);}
+	5%   {transform:translateX(-5px);}
+	10%  {transform:translateX(5px);}
+	15%  {transform:translateX(-5px);}
+	20%  {transform:translateX(0px);}
+	100% {transform:translateX(0px);}
+}
+
+
+.buzzer-name-input{
+	position: relative;
+}
+
+.buzzer-name-btn-wrapper{
+	position: absolute;
+	top: $xs;
+	right: $xs;
+
+}
+
+
+.input-btn{
+	cursor: pointer;
+	padding: $xs;
+	display: inline-block;
+	border: 1px solid $color-blue-uranian;
+	color:$color-blue-uranian;
+	transition: all 0.2s;
+	border-radius: $xs;
+	&:hover{
+		border: 1px solid $color-blue-light;
+		color:$color-blue-light;		
+	}
+}
+.btn-success{
+	&:hover{
+		border: 1px solid $color-yellow;
+		color:$color-yellow;
+	}
+}
+.btn-cancel{
+	border: 1px solid $sky-magenta;
+	color:$sky-magenta;
+	&:hover{
+		border: 1px solid $color-brown;
+		color:$color-brown;
 	}
 }

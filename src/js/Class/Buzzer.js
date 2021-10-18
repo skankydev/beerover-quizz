@@ -12,9 +12,13 @@ export default class Buzzer {
 		this.notifieur = {};
 		this.battery = {};
 		this.statusBle = {};
+		this.status = "wait";
 		
+		this.connected = true;
+
 		this.batteryValue = 0;
 		this.name = 'Team';
+		this.device.addEventListener('gattserverdisconnected', this.onDisconnected.bind(this));
 	}
 
 	async init(){
@@ -30,6 +34,8 @@ export default class Buzzer {
 		this.initNotifieur();
 		this.initBattery();
 		this.initStatus();
+
+		this.startUpdateBattery();
 	}
 
 	initNotifieur(){
@@ -71,22 +77,56 @@ export default class Buzzer {
 		this.statusBle.writeValueWithoutResponse(enc.encode(status));
 	}
 
+	getStatus(){
+		return this.status;
+	}
+
+
 	getBattery(){
 		this.battery.readValue().then((value)=>{
 			this.batteryValue = asString(value);
 		});
-		return this.batteryValue 
+		//console.log(batteryValue);
+		console.log("batteryValue",this.batteryValue);
+		return this.batteryValue
 	}
 
+	startUpdateBattery(){  
+		this.intervalId = setInterval(this.getBattery.bind(this), 5000);
+	}
+	stopUpdateBattery(){
+		clearInterval(this.intervalId)
+	}
 
 	newNotif(event) {
 		let value = event.target.value;
 		let text = asString(value);
 		let emit = new CustomEvent('BuzzerPush',{ detail: {
 			message:text,
+			name:this.name,
 			uid:this.uid
 		} })
-		console.log('befor dispatch',emit);
 		document.dispatchEvent(emit);
 	}
+
+	onDisconnected(){
+		this.connected = false;
+		this.stopUpdateBattery();
+	}
+
+	reconnectDevice() {
+		if (!this.device) {
+			return;
+		}
+		if (this.device.gatt.connected) {
+			console.log('> Bluetooth Device is already connected');
+			return;
+		}
+		//this.device.gatt.connect().then
+		this.init();
+		console.log('after init');
+		this.connected = true;
+
+	}
+
 }

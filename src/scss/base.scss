@@ -24,7 +24,7 @@ body{
 }
 .main-content{
 	display: grid;
-	grid-template-columns: 33% 66%;
+	grid-template-columns: 325px 1fr;
 	grid-gap: $m;
 	padding: $l;
 }
@@ -41,9 +41,10 @@ input{
 	background-color: $color-blue-dark;
 	color:$color-yellow;
 
+
 	&:focus{
 		border-color: $color-blue-light;
-		background-color: $sky-magenta;
+		background-color: $color-purple-dark;
 		outline: none;
 	}
 }
@@ -87,4 +88,9 @@ button {
 		background-color:$midnight;
 		border:2px solid $color-blue-light;
 	}
+}
+
+.disable{
+	background-color:$color-blue-dark;
+	border:2px solid $color-blue-dark;
 }

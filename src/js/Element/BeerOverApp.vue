@@ -16,11 +16,15 @@
 				</template>
 				</div>
 			</section>
-			<section class="buzzer-message">
-				<button type="button" class="add-buzzer" @click="resetBuzzer">Reset</button>
-				<template v-for="(elem,key) in log">
-					<div> {{elem.uid}} - {{elem.message}} </div>
-				</template>
+			<section class="buzzer-message-wrapper">
+				<header class="buzzer-message-header">
+					<button type="button" class="add-buzzer" @click="resetBuzzer">Reset</button>
+				</header>
+				<div class="buzzer-message-list">
+					<template v-for="(elem,key) in log">
+						<div class="buzzer-message"> {{key}} - {{elem.name}} </div>
+					</template>
+				</div>
 			</section>
 		</section>
 	</div>
@@ -42,6 +46,7 @@ export default {
 			count:0,
 			log:[],
 			buzzerList:BuzzerList,
+			interval:false,
 		}
 	},
 	methods:{
@@ -50,9 +55,8 @@ export default {
 		},
 		buzzerPushed:function(event){
 			let test = this.log.findIndex( (e) =>{
-				return e.uid == event.uid;
+				return e.uid == event.detail.uid;
 			});
-			console.log(test);
 			if(test == -1){
 				this.buzzerList.setStatusById(event.detail.uid,'win')
 				this.log.push(event.detail);
@@ -66,7 +70,6 @@ export default {
 			this.log = [];
 			this.buzzerList.resetAll();
 		}
-
 	}
 }
 </script>
