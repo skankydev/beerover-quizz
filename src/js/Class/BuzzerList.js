@@ -12,14 +12,16 @@ class BuzzerList{
 	findNewBuzzer(){
 		let options = {
 			optionalServices: [SERVICE_UUID],
-			acceptAllDevices: true
+			filters: [{
+				name: 'Beerover Buzzer',
+			}],
+			//acceptAllDevices: true
 		}
 
 		navigator.bluetooth.requestDevice(options).then((device) => {
 
 			let buzzer = new Buzzer(device,this.list.length);
 			buzzer.init();
-			//buzzer.getBattery();
 			this.list.push(buzzer);
 
 		}).catch(error => {

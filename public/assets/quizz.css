@@ -688,14 +688,39 @@ button {
   display: flex;
   flex-direction: column; }
 
+.buzzer-info {
+  padding-bottom: 8px; }
+
+.buzzer-element {
+  position: relative;
+  padding: 4px;
+  margin-bottom: 16px;
+  border-radius: 4px;
+  border: 2px solid #000; }
+
+.buzzer-element-wait {
+  border: 2px solid #100022; }
+
+.buzzer-element-win {
+  border: 2px solid #06FE17; }
+
+.buzzer-element-lost {
+  border: 2px solid #FF0D06; }
+
+.buzzer-control {
+  position: absolute;
+  top: 4px;
+  right: 4px; }
+
 .buzzer-action {
   display: flex;
-  flex-direction: row; }
+  flex-direction: row;
+  padding: 16px; }
   .buzzer-action .btn-mini {
     margin-right: 16px; }
 
 .buzzer-name-wrapper {
-  padding: 16px; }
+  padding: 8px; }
   .buzzer-name-wrapper .buzzer-name-btn-wrapper {
     display: none; }
   .buzzer-name-wrapper:hover .buzzer-name-btn-wrapper {
@@ -704,9 +729,8 @@ button {
 .buzzer-name {
   position: relative;
   padding: 8px;
-  margin-bottom: 8px;
   width: 100%;
-  border-bottom: 1px solid #100022; }
+  border: 1px solid #000; }
 
 .text-error {
   color: #C37DB4;

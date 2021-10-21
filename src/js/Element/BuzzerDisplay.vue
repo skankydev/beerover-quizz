@@ -1,14 +1,19 @@
 <template>
-	<div class="buzzer-element">
+	<div :class="'buzzer-element buzzer-element-'+status">
+		<div class="buzzer-info">{{buzzer.key}} - {{buzzer.batteryValue}} V</div>
+		<div class="buzzer-control">
+			<span class="input-btn" @click="toggleStatus">
+				<i class="icon-settings"></i>
+			</span>
+		</div>
 		<div class="buzzer-name-wrapper">
 			<template v-if="!edit">
 				<div class="buzzer-name">
 					<div :class="'buzzer-name-text'+(!buzzer.connected?' text-error':'')">
-
 						<span v-if="!buzzer.connected" class="input-btn btn-cancel" @click="clickReconnect">
 							<i class="icon-refresh" ></i>
 						</span>
-						{{buzzer.key}} - {{name}} - {{buzzer.batteryValue}}
+						{{name}}
 					</div>
 					<div v-if="buzzer.connected" class="buzzer-name-btn-wrapper">
 						<span class="input-btn" @click="editMode">
@@ -31,11 +36,13 @@
 				</div>
 			</template>
 		</div>
-		<div class="buzzer-action" >
-			<span :class="'btn-mini'+(status == 'wait'?' disable':'')" @click="setStatus('wait')">wait</span>
-			<span :class="'btn-mini'+(status == 'win'?' disable':'')" @click="setStatus('win')">win</span>
-			<span :class="'btn-mini'+(status == 'lost'?' disable':'')" @click="setStatus('lost')">lost</span>
-		</div>
+		<template v-if="displayAction">
+			<div class="buzzer-action" >
+				<span :class="'btn-mini'+(status == 'wait'?' disable':'')" @click="setStatus('wait')">wait</span>
+				<span :class="'btn-mini'+(status == 'win'?' disable':'')" @click="setStatus('win')">win</span>
+				<span :class="'btn-mini'+(status == 'lost'?' disable':'')" @click="setStatus('lost')">lost</span>
+			</div>
+		</template>
 	</div>
 </template>
 
@@ -59,6 +66,7 @@ export default {
 			name:'',
 			status:'',
 			edit:false,
+			displayAction:false,
 		}
 	},
 	methods:{
@@ -78,7 +86,10 @@ export default {
 		},
 		clickReconnect:function(event){
 			this.buzzer.reconnectDevice()
-		}
+		},
+		toggleStatus:function(){
+			this.displayAction = !this.displayAction;
+		},
 
 	}
 }

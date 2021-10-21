@@ -17,8 +17,9 @@ export default class Buzzer {
 		this.connected = true;
 
 		this.batteryValue = 0;
-		this.name = 'Team';
+		this.name = 'Team - '+key;
 		this.device.addEventListener('gattserverdisconnected', this.onDisconnected.bind(this));
+		this.device.addEventListener('advertisementreceived', this.onAdvertisment.bind(this));
 	}
 
 	async init(){
@@ -36,7 +37,34 @@ export default class Buzzer {
 		this.initStatus();
 
 		this.startUpdateBattery();
+		
 	}
+
+	onAdvertisment(event){
+		console.log('Advertisement received.');
+		console.log('  Device Name: ' + event.device.name);
+		console.log('  Device ID: ' + event.device.id);
+		console.log('  RSSI: ' + event.rssi);
+		console.log('  TX Power: ' + event.txPower);
+		console.log('  UUIDs: ' + event.uuids);
+		event.manufacturerData.forEach((valueDataView, key) => {
+			this.logDataView('Manufacturer', key, valueDataView);
+		});
+		event.serviceData.forEach((valueDataView, key) => {
+			this.logDataView('Service', key, valueDataView);
+		});
+	}
+
+	logDataView(labelOfDataSource, key, valueDataView) {
+		const hexString = [...new Uint8Array(valueDataView.buffer)].map(b => {
+			return b.toString(16).padStart(2, '0');
+		}).join(' ');
+		const textDecoder = new TextDecoder('ascii');
+		const asciiString = textDecoder.decode(valueDataView.buffer);
+		console.log(`  ${labelOfDataSource} Data: ` + key +
+		  '\n    (Hex) ' + hexString +
+		  '\n    (ASCII) ' + asciiString);
+	};
 
 	initNotifieur(){
 		this.service.getCharacteristic(NOTIFIEUR_UUID).then((notifieur) => {
@@ -92,7 +120,7 @@ export default class Buzzer {
 	}
 
 	startUpdateBattery(){  
-		this.intervalId = setInterval(this.getBattery.bind(this), 5000);
+		this.intervalId = setInterval(this.getBattery.bind(this), 10000);
 	}
 	stopUpdateBattery(){
 		clearInterval(this.intervalId)
@@ -119,10 +147,8 @@ export default class Buzzer {
 			return;
 		}
 		if (this.device.gatt.connected) {
-			console.log('> Bluetooth Device is already connected');
 			return;
 		}
-		//this.device.gatt.connect().then
 		this.init();
 		console.log('after init');
 		this.connected = true;

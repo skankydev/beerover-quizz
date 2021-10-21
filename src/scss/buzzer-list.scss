@@ -9,21 +9,47 @@
 	display: flex;
 	flex-direction: column;
 }
-
+.buzzer-info{
+	padding-bottom: $s;
+}
 .buzzer-element{
+	position: relative;
+	padding: $xs;
+	margin-bottom: $m;
+	border-radius: $xs;
+	border: 2px solid $dark;
+}
+.buzzer-element-wait{
+	border: 2px solid $color-purple-dark;
+}
+
+.buzzer-element-win{
+	border: 2px solid $color-green;
+}
+
+.buzzer-element-lost{
+	border: 2px solid $color-red;
+}
+
+.buzzer-control{
+	position: absolute;
+	top: $xs;
+	right: $xs;
 
 }
+
 
 .buzzer-action{
 	display: flex;
 	flex-direction: row;
+	padding: $m;
 	.btn-mini{
 		margin-right: $m
 	}
 }
 
 .buzzer-name-wrapper{
-	padding: $m;
+	padding: $s;
 	.buzzer-name-btn-wrapper{
 		display: none;
 	}
@@ -37,10 +63,10 @@
 .buzzer-name{
 	position: relative;
 	padding: $s;
-	margin-bottom: $s;
 	width: 100%;
-	border-bottom: 1px solid $color-purple-dark;
+	border: 1px solid $dark;
 }
+
 .buzzer-name-text{
 
 }
