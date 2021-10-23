@@ -1,0 +1,44 @@
+.result-container{
+	display: flex;
+	flex-direction: column;
+}
+
+.result-header{
+	margin-bottom: $m;
+}
+
+.result-list{
+	flex-grow: 1;
+	overflow-y: auto;
+}
+
+
+.result-element{
+	display: grid;
+	grid-template-columns: 1fr 125px;
+	margin-bottom: $m;
+	border-radius: $xs;
+	border: 2px solid $color-purple-dark;
+	h1{
+		padding-left: $s;
+	}
+}
+
+.buzzer-element-win{
+	border: 2px solid $color-green;
+}
+
+.buzzer-element-lost{
+	border: 2px solid $color-red;
+}
+
+.result-btn-wrapper{
+	padding: $m;
+	font-size: 2em;
+}
+
+.result-footer{
+	padding-bottom: $l;
+	text-align: right;
+}
+

@@ -615,19 +615,26 @@ body {
   font-family: 'OpenSans';
   font-size: 16px; }
 
+#BeerOver {
+  max-width: 1000px;
+  margin: 0 auto; }
+
+#Main {
+  display: grid;
+  grid-template-areas: "header header" "list result";
+  grid-template-columns: 325px 1fr;
+  grid-template-rows: 176px 1fr;
+  height: 100vh;
+  width: 100%;
+  grid-gap: 24px; }
+
 .main-header {
-  text-align: center;
-  margin-bottom: 24px; }
+  grid-area: header;
+  text-align: center; }
   .main-header .main-logo {
     max-width: 100vw;
     height: auto;
     max-height: 175px; }
-
-.main-content {
-  display: grid;
-  grid-template-columns: 325px 1fr;
-  grid-gap: 16px;
-  padding: 24px; }
 
 textarea,
 input {
@@ -712,6 +719,9 @@ button {
   top: 4px;
   right: 4px; }
 
+.buzzer-score {
+  text-align: right; }
+
 .buzzer-action {
   display: flex;
   flex-direction: row;
@@ -784,11 +794,39 @@ button {
     border: 1px solid #4B1723;
     color: #4B1723; }
 
-.buzzer-message-header {
+.result-container {
+  display: flex;
+  flex-direction: column; }
+
+.result-header {
   margin-bottom: 16px; }
 
-.buzzer-message-list {
-  text-align: center; }
+.result-list {
+  flex-grow: 1;
+  overflow-y: auto; }
+
+.result-element {
+  display: grid;
+  grid-template-columns: 1fr 125px;
+  margin-bottom: 16px;
+  border-radius: 4px;
+  border: 2px solid #100022; }
+  .result-element h1 {
+    padding-left: 8px; }
+
+.buzzer-element-win {
+  border: 2px solid #06FE17; }
+
+.buzzer-element-lost {
+  border: 2px solid #FF0D06; }
+
+.result-btn-wrapper {
+  padding: 16px;
+  font-size: 2em; }
+
+.result-footer {
+  padding-bottom: 24px;
+  text-align: right; }
 
 /*! normalize.css v8.0.1 | MIT License | github.com/necolas/normalize.css */
 /* Document

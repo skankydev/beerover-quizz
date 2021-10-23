@@ -1,6 +1,6 @@
 <template>
 	<div :class="'buzzer-element buzzer-element-'+status">
-		<div class="buzzer-info">{{buzzer.key}} - {{buzzer.batteryValue}} V</div>
+		<div class="buzzer-info">{{buzzer.batteryValue}} V</div>
 		<div class="buzzer-control">
 			<span class="input-btn" @click="toggleStatus">
 				<i class="icon-settings"></i>
@@ -23,18 +23,21 @@
 				</div>
 			</template>
 			<template v-else>
-				<div class="buzzer-name-input">
+				<form class="buzzer-name-input">
 					<input type="text" v-model="name">
 					<div class="buzzer-name-btn-wrapper">
-						<span class="input-btn btn-success" @click="saveEdit">
+						<button class="input-btn btn-success" @click="saveEdit">
 							<i class="icon-check" ></i>
-						</span>
+						</button>
 						<span class="input-btn btn-cancel" @click="cancelEdit">
 							<i class="icon-close" ></i>
 						</span>
 					</div>
-				</div>
+				</form>
 			</template>
+			<div class="buzzer-score">
+				score : {{buzzer.score}}
+			</div>
 		</div>
 		<template v-if="displayAction">
 			<div class="buzzer-action" >

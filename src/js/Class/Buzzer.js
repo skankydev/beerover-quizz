@@ -17,9 +17,15 @@ export default class Buzzer {
 		this.connected = true;
 
 		this.batteryValue = 0;
+		this.score = 0;
 		this.name = 'Team - '+key;
+
 		this.device.addEventListener('gattserverdisconnected', this.onDisconnected.bind(this));
 		this.device.addEventListener('advertisementreceived', this.onAdvertisment.bind(this));
+	}
+
+	addScore(score){
+		this.score += score
 	}
 
 	async init(){
@@ -114,12 +120,10 @@ export default class Buzzer {
 		this.battery.readValue().then((value)=>{
 			this.batteryValue = asString(value);
 		});
-		//console.log(batteryValue);
-		console.log("batteryValue",this.batteryValue);
-		return this.batteryValue
+		return this.batteryValue;
 	}
 
-	startUpdateBattery(){  
+	startUpdateBattery(){
 		this.intervalId = setInterval(this.getBattery.bind(this), 10000);
 	}
 	stopUpdateBattery(){
@@ -150,9 +154,7 @@ export default class Buzzer {
 			return;
 		}
 		this.init();
-		console.log('after init');
 		this.connected = true;
-
 	}
 
 }

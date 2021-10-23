@@ -12,22 +12,38 @@ body{
 	font-family: 'OpenSans';
 	font-size: 16px
 }
+#BeerOver{
+	max-width: 1000px;
+	margin: 0 auto;
+}
+
+#Main{
+	display: grid;
+	grid-template-areas: "header header"
+						 "list result";
+	grid-template-columns: 325px 1fr;
+	grid-template-rows: 176px 1fr;
+	height: 100vh;
+	width: 100%;
+	grid-gap: $l;
+}
 
 .main-header{
+	grid-area: header;
 	text-align: center;
-	margin-bottom: $l;
 	.main-logo{
 		max-width: 100vw;
 		height: auto;
 		max-height: 175px;
 	}
 }
-.main-content{
-	display: grid;
-	grid-template-columns: 325px 1fr;
-	grid-gap: $m;
-	padding: $l;
+.buzzer-list-wrapper{
+
 }
+.result-container{
+	
+}
+
 
 textarea,
 input{
@@ -94,3 +110,4 @@ button {
 	background-color:$color-blue-dark;
 	border:2px solid $color-blue-dark;
 }
+

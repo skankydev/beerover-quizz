@@ -9,13 +9,21 @@ class BuzzerList{
 		return BuzzerList.instance;
 	}
 
+	findById(id){
+		for(let i in this.list){
+			if(this.list[i].uid == id){
+				return i;
+			}
+		}
+		return -1;
+	}
+
 	findNewBuzzer(){
 		let options = {
 			optionalServices: [SERVICE_UUID],
 			filters: [{
 				name: 'Beerover Buzzer',
 			}],
-			//acceptAllDevices: true
 		}
 
 		navigator.bluetooth.requestDevice(options).then((device) => {
@@ -42,15 +50,12 @@ class BuzzerList{
 		}
 	}
 
-	findById(id){
-		for(let i in this.list){
-			if(this.list[i].uid == id){
-				return i;
-			}
+	addScoreById(id,score){
+		let k = this.findById(id)
+		if(k>-1){
+			this.list[k].addScore(score);
 		}
-		return -1;
 	}
-	
 
 }
 

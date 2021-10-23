@@ -1,31 +1,42 @@
 <template>
-	<div class="Main">
+	<div id="Main">
 		<header class="main-header">
 			<img src="img/logo.png" alt="" class="main-logo">
 		</header>
-		<section class="main-content">
-			<section class="buzzer-list-wrapper">
-				<header class="buzzer-list-header">
-					<button type="button" class="add-buzzer" @click="addBuzzer">Add Buzzer</button>
-				</header>
-				<div class="buzzer-list">
-				<template v-for="(buzzer,key) in buzzerList.list">
-					<buzzer-display
-						:buzzer="buzzer"
-					></buzzer-display>
+		<section class="buzzer-list-wrapper">
+			<header class="buzzer-list-header">
+				<button type="button" @click="addBuzzer">Add Buzzer</button>
+			</header>
+			<div class="buzzer-list">
+			<template v-for="(buzzer,key) in buzzerList.list">
+				<buzzer-display
+					:buzzer="buzzer"
+				></buzzer-display>
+			</template>
+			</div>
+		</section>
+		<section class="result-container">
+			<header class="result-header">
+				<button type="button" @click="resetBuzzer">Reset</button>
+			</header>
+			<div class="result-list">
+				<template v-for="(elem,key) in log">
+					<div :class="'result-element '+( getResultClass(key) ) ">
+						<h1>{{elem.name}}</h1>
+						<div class="result-btn-wrapper">
+							<span class="input-btn btn-success" @click="setResult(key,true)">
+								<i class="icon-check" ></i>
+							</span>
+							<span class="input-btn btn-cancel" @click="setResult(key,false)">
+								<i class="icon-close" ></i>
+							</span>
+						</div>
+					</div>
 				</template>
-				</div>
-			</section>
-			<section class="buzzer-message-wrapper">
-				<header class="buzzer-message-header">
-					<button type="button" class="add-buzzer" @click="resetBuzzer">Reset</button>
-				</header>
-				<div class="buzzer-message-list">
-					<template v-for="(elem,key) in log">
-						<div class="buzzer-message"> {{key}} - {{elem.name}} </div>
-					</template>
-				</div>
-			</section>
+			</div>
+			<footer class="result-footer">
+				<button type="button" @click="validResult">Validate</button>
+			</footer>
 		</section>
 	</div>
 </template>
@@ -47,6 +58,7 @@ export default {
 			log:[],
 			buzzerList:BuzzerList,
 			interval:false,
+			score:10,
 		}
 	},
 	methods:{
@@ -59,16 +71,48 @@ export default {
 			});
 			if(test == -1){
 				this.buzzerList.setStatusById(event.detail.uid,'win')
-				this.log.push(event.detail);
+				let info = {
+					resultSet:false,
+					result:false,
+				};
+				Object.assign(info,event.detail);
+				this.log.push(info);
 				if(this.log.length > 50){
 					this.log.shift();
 				}
 			}
-
 		},
 		resetBuzzer:function(event){
 			this.log = [];
 			this.buzzerList.resetAll();
+			this.score = 10;
+		},
+		getResultClass:function(key){
+			if(!this.log[key].resultSet){
+				return '';
+			}
+			if(this.log[key].result){
+				return ' buzzer-element-win';
+			}
+			return ' buzzer-element-lost';
+		},
+		setResult:function(key,win){
+			this.log[key].resultSet = true;
+			this.log[key].result = win;
+		},
+		unsetResult:function(key){
+			this.log[key].resultSet = false;
+			this.log[key].result = false;
+		},
+		validResult:function(){
+			for(let k in this.log){
+				if(this.log[k].result){
+					
+					this.buzzerList.addScoreById(this.log[k].uid,this.score)
+					this.score -= 1;
+				}
+			}
+			this.resetBuzzer();
 		}
 	}
 }
