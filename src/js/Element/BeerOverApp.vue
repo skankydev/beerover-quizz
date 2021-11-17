@@ -50,6 +50,7 @@ export default {
 	components: { BuzzerDisplay },
 	mounted:function(){
 		document.addEventListener('BuzzerPush',this.buzzerPushed.bind(this));
+
 	},
 	data:function() {
 		return {

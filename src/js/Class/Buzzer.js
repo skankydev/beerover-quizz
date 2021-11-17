@@ -22,6 +22,9 @@ export default class Buzzer {
 
 		this.device.addEventListener('gattserverdisconnected', this.onDisconnected.bind(this));
 		this.device.addEventListener('advertisementreceived', this.onAdvertisment.bind(this));
+
+		this.sound = {};
+		this.soundName = '';
 	}
 
 	addScore(score){
@@ -139,6 +142,7 @@ export default class Buzzer {
 			uid:this.uid
 		} })
 		document.dispatchEvent(emit);
+		this.sound.play();
 	}
 
 	onDisconnected(){
@@ -157,4 +161,8 @@ export default class Buzzer {
 		this.connected = true;
 	}
 
+	setSound(name){
+		this.sound = new Audio('./sound/'+name+'.wav');
+		this.sound.load();
+	}
 }

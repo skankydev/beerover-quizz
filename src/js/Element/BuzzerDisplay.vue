@@ -45,6 +45,14 @@
 				<span :class="'btn-mini'+(status == 'win'?' disable':'')" @click="setStatus('win')">win</span>
 				<span :class="'btn-mini'+(status == 'lost'?' disable':'')" @click="setStatus('lost')">lost</span>
 			</div>
+			<div class="sound-select">
+				<select name="sound" id="" v-model="sound" @change="setSound">
+					<option value="alert">Alert</option>
+					<option value="bonus">Bonus</option>
+					<option value="positive">Positive</option>
+					<option value="retro">Retro</option>
+				</select>
+			</div>
 		</template>
 	</div>
 </template>
@@ -55,6 +63,7 @@ export default {
 	props:['buzzer'],
 	mounted:function(){
 		this.name = this.buzzer.name;
+		this.buzzer.setSound(this.sound)
 	},
 	watch:{
 		buzzer: {
@@ -70,6 +79,7 @@ export default {
 			status:'',
 			edit:false,
 			displayAction:false,
+			sound:'alert',
 		}
 	},
 	methods:{
@@ -93,6 +103,9 @@ export default {
 		toggleStatus:function(){
 			this.displayAction = !this.displayAction;
 		},
+		setSound:function(event){
+			this.buzzer.setSound(this.sound)
+		}
 
 	}
 }
