@@ -1,13 +1,12 @@
 <template>
 	<div :class="'buzzer-element buzzer-element-'+status">
-		<div class="buzzer-info">{{buzzer.batteryValue}} V</div>
-		<div class="buzzer-control">
-			<span class="input-btn" @click="toggleStatus">
-				<i class="icon-settings"></i>
-			</span>
-		</div>
 		<div class="buzzer-name-wrapper">
-			<template v-if="!edit">
+			<span v-if="!buzzer.connected" class="input-btn btn-cancel" @click="clickReconnect">
+				<i class="icon-refresh" ></i>
+			</span>
+			<editable v-model="name"></editable>
+
+			<!-- <template v-if="!edit">
 				<div class="buzzer-name">
 					<div :class="'buzzer-name-text'+(!buzzer.connected?' text-error':'')">
 						<span v-if="!buzzer.connected" class="input-btn btn-cancel" @click="clickReconnect">
@@ -21,7 +20,7 @@
 						</span>
 					</div>
 				</div>
-			</template>
+			</template> 
 			<template v-else>
 				<form class="buzzer-name-input">
 					<input type="text" v-model="name">
@@ -34,17 +33,23 @@
 						</span>
 					</div>
 				</form>
-			</template>
+			</template>-->
 			<div class="buzzer-score">
-				score : {{buzzer.score}}
+				score : <editable v-model="buzzer.score"></editable>
 			</div>
 		</div>
+		<div class="buzzer-control">
+			<!-- <span class="input-btn" @click="toggleStatus">
+				<i class="icon-settings"></i>
+			</span> -->
+		</div>
 		<template v-if="displayAction">
-			<div class="buzzer-action" >
+			<!-- <div class="buzzer-action" >
 				<span :class="'btn-mini'+(status == 'wait'?' disable':'')" @click="setStatus('wait')">wait</span>
+				<span :class="'btn-mini'+(status == 'choice'?' disable':'')" @click="setStatus('choice')">choice</span>
 				<span :class="'btn-mini'+(status == 'win'?' disable':'')" @click="setStatus('win')">win</span>
 				<span :class="'btn-mini'+(status == 'lost'?' disable':'')" @click="setStatus('lost')">lost</span>
-			</div>
+			</div> -->
 			<div class="sound-select">
 				<select name="sound" id="" v-model="sound" @change="setSound">
 					<option value="alert">Alert</option>
@@ -58,8 +63,10 @@
 </template>
 
 <script>
+import Editable from "../Vrac/Editable.vue";
 
 export default {
+	components: { Editable },
 	props:['buzzer'],
 	mounted:function(){
 		this.name = this.buzzer.name;
@@ -72,6 +79,10 @@ export default {
 			},
 			deep: true,
 		},
+		name:function (){
+			this.buzzer.name = this.name,
+			this.$forceUpdate();
+		}
 	},
 	data:function() {
 		return {
@@ -86,17 +97,7 @@ export default {
 		setStatus:function(status){
 			this.buzzer.setStatus(status);
 		},
-		editMode:function(){
-			this.edit = true;
-		},
-		saveEdit:function(){
-			this.edit = false;
-			this.buzzer.name = this.name;
-		},
-		cancelEdit:function(){
-			this.edit = false;
-			this.name = this.buzzer.name;
-		},
+		
 		clickReconnect:function(event){
 			this.buzzer.reconnectDevice()
 		},

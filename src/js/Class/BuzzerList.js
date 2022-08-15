@@ -39,7 +39,13 @@ class BuzzerList{
 
 	resetAll(){
 		for(let k in this.list){
-			this.list[k].setStatus('wait');
+			this.list[k].setStatus('sleep');
+		}
+	}
+
+	setMode(mode){
+		for(let k in this.list){
+			this.list[k].setStatus(mode);
 		}
 	}
 

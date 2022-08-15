@@ -1,15 +1,59 @@
+
 .result-container{
 	display: flex;
 	flex-direction: column;
 }
 
 .result-header{
-	margin-bottom: $m;
+	display: grid;
+	grid-template-columns: 75% 25%;
+	grid-gap: $s;
+	grid-template-areas:
+	'mode done'
+	'answer empty';
+}
+
+.result-mode{
+	grid-area: mode;
+	button{
+		margin-right: $m;
+	}
+}
+.result-answer{
+	grid-area: answer;
+	button{
+		margin-right: $m;
+	}
+}
+.result-done{
+	grid-area: done;
+	text-align: right;
+	button{
+		margin-right: $m;
+	}
 }
 
 .result-list{
 	flex-grow: 1;
 	overflow-y: auto;
+}
+
+.result-choice{
+	padding-top: $m;
+	display: grid;
+	grid-gap: $s;
+	grid-template-columns: 1fr 1fr 1fr 1fr;
+}
+
+.result-team-name{
+	font-size: 32px;
+	padding: $s;
+
+}
+.result-team-answer{
+	font-size: 32px;
+	padding: $s;
+
 }
 
 

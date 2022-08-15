@@ -12,7 +12,7 @@ export default class Buzzer {
 		this.notifieur = {};
 		this.battery = {};
 		this.statusBle = {};
-		this.status = "wait";
+		this.status = "sleep";
 		
 		this.connected = true;
 
@@ -28,7 +28,7 @@ export default class Buzzer {
 	}
 
 	addScore(score){
-		this.score += score
+		this.score = parseInt(this.score) + score
 	}
 
 	async init(){
@@ -110,7 +110,7 @@ export default class Buzzer {
 
 	setStatus(status){
 		this.status = status;
-		var enc = new TextEncoder(); 
+		var enc = new TextEncoder();
 		this.statusBle.writeValueWithoutResponse(enc.encode(status));
 	}
 

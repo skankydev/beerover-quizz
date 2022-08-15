@@ -19,6 +19,9 @@
 	border-radius: $xs;
 	border: 2px solid $dark;
 }
+.buzzer-element-sleep{
+	border: 2px solid $color-purple-dark;
+}
 .buzzer-element-wait{
 	border: 2px solid $color-purple-dark;
 }
@@ -38,9 +41,7 @@
 
 }
 
-.buzzer-score{
-	text-align: right;
-}
+
 
 .buzzer-action{
 	display: flex;
@@ -53,6 +54,14 @@
 
 .buzzer-name-wrapper{
 	padding: $s;
+	
+}
+
+.buzzer-name{
+	position: relative;
+	padding: $s;
+	width: 100%;
+	border: 1px solid $dark;
 	.buzzer-name-btn-wrapper{
 		display: none;
 	}
@@ -63,12 +72,13 @@
 	}
 }
 
-.buzzer-name{
+.buzzer-score{
 	position: relative;
 	padding: $s;
 	width: 100%;
 	border: 1px solid $dark;
 }
+
 
 .buzzer-name-text{
 
